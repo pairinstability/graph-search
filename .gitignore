@@ -1,5 +1,8 @@
 # build artifacts
 build
+out.png
+out.svg
+out.dot
 # built binaries
 bin
 # editor

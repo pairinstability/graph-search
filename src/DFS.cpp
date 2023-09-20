@@ -12,7 +12,8 @@
 //          recursively call DFS(G, w)
 //
 namespace DFS {
-void traverse(const Graph<char>& graph, char root, char current_node, char goal, std::set<char>& visited, std::unordered_map<char, char>& parent)
+
+std::string traverse(const Graph<char>& graph, char root, char current_node, char goal, std::set<char>& visited, std::unordered_map<char, char>& parent)
 {
     visited.insert(current_node);
 
@@ -28,37 +29,43 @@ void traverse(const Graph<char>& graph, char root, char current_node, char goal,
 
         path.push_back(root);
 
-
+        std::string ret;
         for (int i = path.size() - 1; i >= 0; --i) {
-            std::cout << path[i];
+            ret += path[i];
             if (i > 0) {
-                std::cout << " -> ";
+                ret += " -> ";
             }
         }
-        std::cout << std::endl;
 
-        return;
+        return ret;
     }
 
-    const std::vector<char>& neighbors = graph.getNeighbors(current_node);
-    for (char neighbor : neighbors) {
+    const std::vector<std::pair<char, double>>& neighbors = graph.getNeighbors(current_node);
+    for (const auto& neighbor_pair : neighbors) {
+        char neighbor = neighbor_pair.first;
         if (visited.find(neighbor) == visited.end()) {
             parent[neighbor] = current_node;
-            traverse(graph, root, neighbor, goal, visited, parent);
+            std::string subpath = traverse(graph, root, neighbor, goal, visited, parent);
+            if (!subpath.empty()) {
+                return subpath;
+            }
         }
     }
 
+    return "";
 }
 
-void traverse(const Graph<char>& graph, char root, char goal)
+std::string traverse(const Graph<char>& graph, char root, char goal)
 {
     std::set<char> visited;
     std::unordered_map<char, char> parent;
 
-    traverse(graph, root, root, goal, visited, parent);
+    std::string ret = traverse(graph, root, root, goal, visited, parent);
 
-    if (visited.find(goal) == visited.end()) {
+    if (ret.empty()) {
         std::cout << "Goal not reached" << std::endl;
     }
+
+    return ret;
 }
 }

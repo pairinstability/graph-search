@@ -4,7 +4,7 @@
 #include <graph/Graph.h>
 
 namespace BFS {
-void traverse(const Graph<char>& graph, char root, char goal);
+std::string traverse(const Graph<char>& graph, char root, char goal);
 
 };
 
