@@ -1,11 +1,11 @@
-#ifndef BFS_H
-#define BFS_H
+#ifndef DFS_H
+#define DFS_H
 
 #include <graph/Graph.h>
 
-namespace BFS {
+namespace DFS {
 void traverse(const Graph<char>& graph, char root, char goal);
 
 };
 
-#endif // BFS_H
+#endif // DFS_H

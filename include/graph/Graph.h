@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <utils/Debug.h>
 #include <vector>
 
 template <typename T>
@@ -13,23 +14,56 @@ public:
     {
     }
 
+    // add a from and to node and create the edge
+    void addNodes(const T& from, const T& to)
+    {
+        // check if the nodes exist. if not, add them
+        if (nodes.find(from) == nodes.end()) {
+            nodes[from] = std::vector<T>();
+        }
+
+        if (nodes.find(to) == nodes.end()) {
+            nodes[to] = std::vector<T>();
+        }
+
+        // add the edge between the two
+        nodes[from].push_back(to);
+        if (!is_directed) {
+            nodes[to].push_back(from);
+        }
+
+        if (!is_directed) {
+            Debug::print("Added nodes: ", from, "-", to);
+        } else {
+            Debug::print("Added nodes: ", from, "->", to);
+        }
+    }
+
+    // add only a node
     void addNode(const T& node)
     {
         if (nodes.find(node) == nodes.end()) {
             nodes[node] = std::vector<T>();
         }
+        Debug::print("Added node: ", node);
     }
 
+    // add only an edge
     void addEdge(const T& from, const T& to)
     {
         if (nodes.find(from) == nodes.end() || nodes.find(to) == nodes.end()) {
-            std::cerr << "Node not found" << std::endl;
             return;
         }
 
         nodes[from].push_back(to);
         if (!is_directed) {
             nodes[to].push_back(from);
+        }
+
+        if (!is_directed) {
+            Debug::print("Added undirected edge for: ", from, "-", to);
+        } else {
+            Debug::print("Added directed edge for: ", from, "->", to);
         }
     }
 
@@ -42,6 +76,7 @@ public:
         }
     }
 
+    // TOD: this kinda sucks. need to make this easier to read
     void printGraph() const
     {
         for (const auto& entry : nodes) {
@@ -50,18 +85,21 @@ public:
 
             for (const T& neighbor : neighbors) {
                 if (is_directed) {
-                    // Print as directed edge
                     std::cout << node << " -> " << neighbor << std::endl;
                 } else {
-                    // Print as undirected edge
                     std::cout << node << " - " << neighbor << std::endl;
                 }
             }
         }
     }
 
+    double getSize()
+    {
+        return nodes.size();
+    }
+
 private:
-    /* the nodes are represented as a unique key : list of adjacent nodes */
+    // the nodes are represented as a unique key : list of adjacent nodes
     std::unordered_map<T, std::vector<T>> nodes;
     bool is_directed;
 };

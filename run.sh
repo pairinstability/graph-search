@@ -10,4 +10,4 @@ CXX=/usr/bin/clang++ cmake -G Ninja ..
 ninja
 
 cd ..
-./bin/testgraph
+DEBUG=1 ./bin/testgraph

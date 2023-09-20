@@ -4,6 +4,20 @@
 #include <unordered_map>
 
 // https://en.wikipedia.org/wiki/Breadth-first_search
+//
+// BFS(G, root, goal)
+//  let Q be a queue
+//  Q.enqueue(root)
+//  label root as explored
+//  while Q is not empty do
+//      v := Q.dequeue()
+//      if v is goal then return v
+//      for all edges from v to w in G.adjacentEdges(v) do
+//          if w is not labeled as explored then
+//              label w as explored
+//              w.parent := v
+//              Q.enqueue(w)
+//
 namespace BFS {
 void traverse(const Graph<char>& graph, char root, char goal)
 {
@@ -44,13 +58,14 @@ void traverse(const Graph<char>& graph, char root, char goal)
         const std::vector<char>& neighbors = graph.getNeighbors(current_node);
         for (char neighbor : neighbors) {
             if (visited.find(neighbor) == visited.end()) {
-                queue.push(neighbor);
                 visited.insert(neighbor);
                 parent[neighbor] = current_node;
+                queue.push(neighbor);
             }
         }
     }
 
     std::cout << "Goal not reached" << std::endl;
+    return;
 }
 }
