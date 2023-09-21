@@ -21,9 +21,15 @@ target_include_directories(DFS PUBLIC ${PROJECT_SOURCE_DIR}/../include)
 add_library(dijkstra "${PROJECT_SOURCE_DIR}/../include/Dijkstra.h" "${PROJECT_SOURCE_DIR}/../src/Dijkstra.cpp")
 target_include_directories(dijkstra PUBLIC ${PROJECT_SOURCE_DIR}/../include)
 
+# bellman-ford
+add_library(bellmanford "${PROJECT_SOURCE_DIR}/../include/BellmanFord.h" "${PROJECT_SOURCE_DIR}/../src/BellmanFord.cpp")
+target_include_directories(bellmanford PUBLIC ${PROJECT_SOURCE_DIR}/../include)
+
+
 target_link_libraries(
     graph
     BFS
     DFS
     dijkstra
+    bellmanford
 )

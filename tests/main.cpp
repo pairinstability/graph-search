@@ -1,6 +1,7 @@
 #include <BFS.h>
 #include <DFS.h>
 #include <Dijkstra.h>
+#include <BellmanFord.h>
 #include <cassert>
 #include <graph/Graph.h>
 
@@ -97,11 +98,42 @@ void runDijkstra(bool run)
     }
 }
 
+// Bellman-Ford
+void runBellmanFord(bool run) {
+    if (run) {
+        /*            ->:5, <-:-2
+         *     6/----> B <---> D
+         *     /       |  \ /-3^
+         *    A       8|   x   |7
+         *    ^\   7   v  / \-4|
+         *    | \----> C ----> E
+         *   2|            9  /
+         *    \--------------/
+         */
+
+        Graph<char> BellmanfordGraph(true, true);
+        BellmanfordGraph.addNodes('A', 'B', 6.0);
+        BellmanfordGraph.addNodes('A', 'C', 7.0);
+        BellmanfordGraph.addNodes('B', 'C', 8.0);
+        BellmanfordGraph.addNodes('B', 'D', 5.0);
+        BellmanfordGraph.addNodes('D', 'B', -2.0);
+        BellmanfordGraph.addNodes('C', 'E', 9.0);
+        BellmanfordGraph.addNodes('E', 'A', 2.0);
+        BellmanfordGraph.addNodes('E', 'D', 7.0);
+        BellmanfordGraph.addNodes('B', 'E', -4.0);
+        BellmanfordGraph.addNodes('C', 'D', -3.0);
+
+        assert(BellmanFord::traverse(BellmanfordGraph, 'A', 'B') == "A -> C -> D -> B");
+        std::cout << "BellmanFord(A,B): A -> C -> D -> B" << std::endl;
+    }
+}
+
 int main()
 {
     runBFS(true);
     runDFS(true);
     runDijkstra(true);
+    runBellmanFord(true);
 
     return 0;
 }

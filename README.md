@@ -8,7 +8,7 @@ implemented algorithms:
 - breadth-first search
 - depth-first search
 - basic queue dijkstra's algorithm
-
+- bellman-ford
 
 
 TODO:
@@ -44,9 +44,21 @@ usage
 #     C ----
 #
 # Dijkstra(A,E): A -> D -> B -> E
+#
+#            ->:5, <-:-2
+#     6/----> B <---> D
+#     /       |  \ /-3^
+#    A       8|   x   |7
+#    ^\   7   v  / \-4|
+#    | \----> C ----> E
+#   2|            9  /
+#    \--------------/
+#
+#
+# BellmanFord(A,B): A -> C -> D -> B
 ```
 
-there is a `dumpGraph` method in the `Graph` class that dumps the graph into a graphviz dot format, upon which the `viz.sh` script can be used to compile and convert it to a png.
+the ascii representations kinda suck. the png's of the graphs are in `graphs`, using the `dumpGraph` functionality.
 
 e.g.
 ```cpp
