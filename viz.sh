@@ -13,5 +13,3 @@ output_png="out.png"
 
 dot -Tsvg "$input_file" > "$output_svg"
 inkscape "$output_svg" -o "$output_png"
-
-echo "PNG image saved as $output_png"

@@ -1,5 +1,6 @@
 #include <BFS.h>
 #include <DFS.h>
+#include <Dijkstra.h>
 #include <cassert>
 #include <graph/Graph.h>
 
@@ -28,11 +29,11 @@ void runBFS(bool run)
 
         // BFS: A -> B -> F -> I
         assert(BFS::traverse(BFSGraph, 'A', 'I') == "A -> B -> F -> I");
-        std::cout << "BFS: A -> B -> F -> I" << std::endl;
+        std::cout << "BFS(A,I): A -> B -> F -> I" << std::endl;
 
         // BFS: I -> F -> B -> A -> D -> H -> J
         assert(BFS::traverse(BFSGraph, 'I', 'J') == "I -> F -> B -> A -> D -> H -> J");
-        std::cout << "BFS: I -> F -> B -> A -> D -> H -> J" << std::endl;
+        std::cout << "BFS(I,J): I -> F -> B -> A -> D -> H -> J" << std::endl;
     }
 }
 
@@ -60,12 +61,39 @@ void runDFS(bool run)
         DFSGraph.addNodes('H', 'J');
 
         assert(DFS::traverse(DFSGraph, 'B', 'J') == "B -> A -> D -> H -> J");
-        std::cout << "DFS: B -> A -> D -> H -> J" << std::endl;
+        std::cout << "DFS(B,J): B -> A -> D -> H -> J" << std::endl;
 
         assert(DFS::traverse(DFSGraph, 'E', 'G') == "E -> B -> A -> C -> G");
-        std::cout << "DFS: E -> B -> A -> C -> G" << std::endl;
+        std::cout << "DFS(E,G): E -> B -> A -> C -> G" << std::endl;
+    }
+}
 
-        DFSGraph.dumpGraph("out.dot");
+// Dijkstra, basic queue
+void runDijkstra(bool run)
+{
+    if (run) {
+        /*              9
+         *           B --- E
+         *        14/ \2    \6
+         *         / 9 \  11 \
+         *        A --- D --- F
+         *         \   /10   /
+         *         7\ /     /15
+         *           C ----
+         */
+        Graph<char> DijkstraGraph(false, true);
+        DijkstraGraph.addNodes('A', 'C', 7.0);
+        DijkstraGraph.addNodes('A', 'B', 14.0);
+        DijkstraGraph.addNodes('A', 'D', 9.0);
+        DijkstraGraph.addNodes('C', 'F', 15.0);
+        DijkstraGraph.addNodes('C', 'D', 10.0);
+        DijkstraGraph.addNodes('D', 'B', 2.0);
+        DijkstraGraph.addNodes('B', 'E', 9.0);
+        DijkstraGraph.addNodes('E', 'F', 6.0);
+        DijkstraGraph.addNodes('D', 'F', 11.0);
+
+        assert(Dijkstra::traverse(DijkstraGraph, 'A', 'E') == "A -> D -> B -> E");
+        std::cout << "Dijkstra(A,E): A -> D -> B -> E" << std::endl;
     }
 }
 
@@ -73,6 +101,7 @@ int main()
 {
     runBFS(true);
     runDFS(true);
+    runDijkstra(true);
 
     return 0;
 }

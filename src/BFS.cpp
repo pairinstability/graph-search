@@ -55,9 +55,8 @@ std::string traverse(const Graph<char>& graph, char root, char goal)
             return ret;
         }
 
-        const std::vector<std::pair<char, double>>& neighbors = graph.getNeighbors(current_node);
-        for (const auto& neighbor_pair : neighbors) {
-            char neighbor = neighbor_pair.first;
+        const std::vector<char> neighbors = graph.getNeighbors(current_node);
+        for (const auto& neighbor : neighbors) {
             if (visited.find(neighbor) == visited.end()) {
                 visited.insert(neighbor);
                 parent[neighbor] = current_node;
